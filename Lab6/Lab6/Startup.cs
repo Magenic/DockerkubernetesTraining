@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -38,7 +39,11 @@ namespace Lab6
             else
             {
                 app.UseHsts();
-            }
+            };
+
+            ConfigurationValues.MySqlLocation = Configuration.GetValue<string>("SqlLocation");
+            ConfigurationValues.MySqlUserId = Configuration.GetValue<string>("SqlUserId");
+            ConfigurationValues.MySqlPwd = Configuration.GetValue<string>("SqlPwd");
 
             app.UseHttpsRedirection();
             app.UseMvc();

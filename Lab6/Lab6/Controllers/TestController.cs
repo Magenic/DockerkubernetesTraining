@@ -18,7 +18,7 @@ namespace Lab6.Controllers
         public ActionResult<string> Get()
         {
             var returnValues = new List<TestData>();
-            using (MySqlConnection conn = new MySqlConnection("server=mysql01;port=3306;database=foo;user=remoteuser;password=password"))
+            using (MySqlConnection conn = new MySqlConnection($"server={ConfigurationValues.MySqlLocation};port=3306;database=foo;user={ConfigurationValues.MySqlUserId};password={ConfigurationValues.MySqlPwd}"))
             {
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand("select * from test_data", conn);
