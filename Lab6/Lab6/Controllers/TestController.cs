@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lab6.entities;
 using Microsoft.AspNetCore.Mvc;
+using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 
 namespace Lab6.Controllers
 {
@@ -12,9 +15,27 @@ namespace Lab6.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var returnValues = new List<TestData>();
+            using (MySqlConnection conn = new MySqlConnection("server=mysql01;port=3306;database=foo;user=remoteuser;password=password"))
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("select * from test_data", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        returnValues.Add(new TestData()
+                        {
+                            Name = reader["Name"].ToString(),
+                            Value = reader["Value"].ToString()
+                        });
+                    }
+                }
+            }
+            return JsonConvert.SerializeObject(returnValues);
         }
 
         // GET api/values/5
