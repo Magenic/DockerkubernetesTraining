@@ -1,0 +1,22 @@
+--- 
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  labels:
+    app: first-deployment
+  name: first-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: first-deployment
+  template:
+    metadata:
+      labels:
+        app: first-deployment
+    spec:
+      containers:
+      - image: karthequian/helloworld:latest
+        name: helloworld
+      dnsPolicy: ClusterFirst

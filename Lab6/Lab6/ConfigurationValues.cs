@@ -8,6 +8,7 @@ namespace Lab6
     public static class ConfigurationValues
     {
         public static string MySqlLocation = "";
+        public static string MySqlPort = "";
         public static string MySqlUserId = "";
         public static string MySqlPwd = "";
     }

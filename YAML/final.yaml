@@ -1,0 +1,41 @@
+--- 
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  labels:
+    app: final-deployment
+  name: final-deployment
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: final-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: final-deployment
+    spec:
+      containers:
+      - image: mysql/mysql-server
+        name: mysql-server
+        ports:
+        - containerPort: 3306 
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: data-volume
+        - mountPath: /etc/my.cnf
+          name: config-volume
+          subPath: my.cnf
+      - image: bowman74/myimage4
+        name: myapi
+        ports:
+        - containerPort: 80
+      dnsPolicy: ClusterFirst
+      volumes:
+      - name: data-volume
+        hostPath:
+          path: /data
+      - name: config-volume
+        hostPath:
+          path: /config

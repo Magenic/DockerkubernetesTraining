@@ -1,0 +1,38 @@
+--- 
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  labels:
+    app: mysql-deployment
+  name: mysql-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-deployment
+  template:
+    metadata:
+      labels:
+        app: mysql-deployment
+    spec:
+      containers:
+      - image: mysql/mysql-server
+        name: mysql-server
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: data-volume
+          subPath: data
+        - mountPath: /dataconfig
+          name: data-volume
+          subPath: config
+        command: ["/bin/sh","-c"]
+        args: ["cp /dataconfig/my.cnf /etc/my.cnf; /entrypoint.sh mysqld"]
+      dnsPolicy: ClusterFirst
+      volumes:
+      - name: data-volume
+        hostPath:
+          path: /mysql-files

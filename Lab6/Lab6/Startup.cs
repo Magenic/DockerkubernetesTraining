@@ -42,6 +42,7 @@ namespace Lab6
             };
 
             ConfigurationValues.MySqlLocation = Configuration.GetValue<string>("SqlLocation");
+            ConfigurationValues.MySqlPort = Configuration.GetValue<string>("SqlPort");
             ConfigurationValues.MySqlUserId = Configuration.GetValue<string>("SqlUserId");
             ConfigurationValues.MySqlPwd = Configuration.GetValue<string>("SqlPwd");
 
